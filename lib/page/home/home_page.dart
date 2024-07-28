@@ -27,6 +27,12 @@ class _HomePage extends ConsumerState<HomePage> {
                 GoRouter.of(context).push('/count_up');
               },
             ),
+            TemplateWidgets.button(
+              text: 'Count Down Timer',
+              onPressed: () {
+                GoRouter.of(context).push('/count_down');
+              },
+            ),
           ],
         ),
       ),
