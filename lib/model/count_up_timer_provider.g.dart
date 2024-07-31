@@ -7,7 +7,7 @@ part of 'count_up_timer_provider.dart';
 // **************************************************************************
 
 String _$countUpTimerNotifierHash() =>
-    r'8ffb15847ea8bccd5ba6dd078b36ee778844871d';
+    r'2eb0a237c3830e0e835834239f1d910b2ad8cfc8';
 
 /// See also [CountUpTimerNotifier].
 @ProviderFor(CountUpTimerNotifier)

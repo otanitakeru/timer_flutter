@@ -12,32 +12,14 @@ class CountUpTimerNotifier extends _$CountUpTimerNotifier {
 
   @override
   Time build() {
-    ref.onDispose(
-      () {
-        _timer?.cancel();
-      },
-    );
+    _onDispose();
+    _generateTimer();
+
     return const Time(msec: 0, isRunning: false);
-  }
-
-  void startTimer() {
-    if (_isRunning) {
-      return;
-    }
-    resetTimer();
-    _setIsRunning(true);
-
-    _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
-      if (!_isRunning) {
-        return;
-      }
-      state = state.copyWith(msec: state.msec + 100);
-    });
   }
 
   void resetTimer() {
     _setIsRunning(false);
-    _timer?.cancel();
     state = state.copyWith(msec: 0);
   }
 
@@ -55,8 +37,25 @@ class CountUpTimerNotifier extends _$CountUpTimerNotifier {
     _setIsRunning(true);
   }
 
+  void _generateTimer() {
+    _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      if (!_isRunning) {
+        return;
+      }
+      state = state.copyWith(msec: state.msec + 100);
+    });
+  }
+
   void _setIsRunning(bool isRunning) {
     _isRunning = isRunning;
     state = state.copyWith(isRunning: isRunning);
+  }
+
+  void _onDispose() {
+    ref.onDispose(
+      () {
+        _timer?.cancel();
+      },
+    );
   }
 }

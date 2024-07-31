@@ -14,8 +14,9 @@ class _CountDownPage extends ConsumerState<CountDownPage> {
   @override
   Widget build(BuildContext context) {
     final countDownTimerProvider =
-        ref.read(countDownTimerNotifierProvider.notifier);
-    final countDownTimerValue = ref.watch(countDownTimerNotifierProvider);
+        countDownTimerNotifierProvider(onTimerEnd: _showSnackBar);
+    final countDoenTimerNotifier = ref.read(countDownTimerProvider.notifier);
+    final countDownTimerValue = ref.watch(countDownTimerProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -28,32 +29,25 @@ class _CountDownPage extends ConsumerState<CountDownPage> {
             _getTimeTextWidget(countDownTimerValue.msec),
             const SizedBox(height: 20),
             TemplateWidgets.button(
-                text: 'スタート',
+                text: '5秒セット',
                 onPressed: () {
-                  countDownTimerProvider.startTimer(
-                    onTimerEnd: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Timer End'),
-                        ),
-                      );
-                    },
-                    duration: 10000,
+                  countDoenTimerNotifier.setTime(
+                    duration: 5000,
                   );
                 }),
-            TemplateWidgets.button(
-              text: 'リセット',
-              onPressed: countDownTimerProvider.resetTimer,
-            ),
             countDownTimerValue.isRunning
                 ? TemplateWidgets.button(
                     text: '一時停止',
-                    onPressed: countDownTimerProvider.pauseTimer,
+                    onPressed: countDoenTimerNotifier.pauseTimer,
                   )
                 : TemplateWidgets.button(
-                    text: '再開',
-                    onPressed: countDownTimerProvider.resumeTimer,
+                    text: 'スタート',
+                    onPressed: countDoenTimerNotifier.resumeTimer,
                   ),
+            TemplateWidgets.button(
+              text: 'リセット',
+              onPressed: countDoenTimerNotifier.resetTimer,
+            ),
           ],
         ),
       ),
@@ -67,6 +61,14 @@ class _CountDownPage extends ConsumerState<CountDownPage> {
       child: Text(
         'Time: ${msec ~/ 1000}.${(msec % 1000) ~/ 100}',
         style: const TextStyle(fontSize: 30),
+      ),
+    );
+  }
+
+  void _showSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Timer End'),
       ),
     );
   }

@@ -27,23 +27,19 @@ class _CountUpPage extends ConsumerState<CountUpPage> {
           children: <Widget>[
             _getTimeTextWidget(countUpTimerValue.msec),
             const SizedBox(height: 20),
-            TemplateWidgets.button(
-              text: 'スタート',
-              onPressed: countUpTimerProvider.startTimer,
-            ),
-            TemplateWidgets.button(
-              text: 'リセット',
-              onPressed: countUpTimerProvider.resetTimer,
-            ),
             countUpTimerValue.isRunning
                 ? TemplateWidgets.button(
                     text: '一時停止',
                     onPressed: countUpTimerProvider.pauseTimer,
                   )
                 : TemplateWidgets.button(
-                    text: '再開',
+                    text: 'スタート',
                     onPressed: countUpTimerProvider.resumeTimer,
                   ),
+            TemplateWidgets.button(
+              text: 'リセット',
+              onPressed: countUpTimerProvider.resetTimer,
+            ),
           ],
         ),
       ),
